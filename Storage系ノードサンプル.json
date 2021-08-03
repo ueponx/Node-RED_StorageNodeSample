@@ -1,0 +1,325 @@
+[
+    {
+        "id": "cd0e1fcec1465bf7",
+        "type": "tab",
+        "label": "フロー 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a5e23061fe5ea4b9",
+        "type": "inject",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "46b5cbb7f3435e08"
+            ]
+        ]
+    },
+    {
+        "id": "6416bb6e2fbc29ad",
+        "type": "debug",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "46b5cbb7f3435e08",
+        "type": "function",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "func": "node.error(\"ログ\", msg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 80,
+        "wires": [
+            [
+                "6416bb6e2fbc29ad"
+            ]
+        ]
+    },
+    {
+        "id": "4979cc0c0be02fa3",
+        "type": "catch",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 100,
+        "y": 140,
+        "wires": [
+            [
+                "11765631a288b699"
+            ]
+        ]
+    },
+    {
+        "id": "11765631a288b699",
+        "type": "template",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "error payload data : {{payload}} !",
+        "output": "str",
+        "x": 300,
+        "y": 140,
+        "wires": [
+            [
+                "938fa8408cfb3fb7",
+                "8ce1ef1c695f8bcd"
+            ]
+        ]
+    },
+    {
+        "id": "938fa8408cfb3fb7",
+        "type": "file",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "filename": "/root/log",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 480,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8ce1ef1c695f8bcd",
+        "type": "debug",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "04d1ef3dfc9ae8e8",
+        "type": "file",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "filename": "/root/tmp",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "utf8",
+        "x": 580,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a7f2cb9bcb592424",
+        "type": "inject",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 340,
+        "wires": [
+            [
+                "e20844cf580afb2b"
+            ]
+        ]
+    },
+    {
+        "id": "e20844cf580afb2b",
+        "type": "function",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "func": "let csv = [];\nconst currentTime = moment();\nnode.warn(currentTime.format(\"YYYY/MM/DD_HH:mm:ss\"));\n\ncsv.push(currentTime.format(\"YYYY/MM/DD_HH:mm:ss\"));\ncsv.push('センサーデータ');\nmsg.payload = csv.join(',');\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "moment",
+                "module": "moment"
+            }
+        ],
+        "x": 360,
+        "y": 340,
+        "wires": [
+            [
+                "04d1ef3dfc9ae8e8"
+            ]
+        ]
+    },
+    {
+        "id": "d33484abe0c60907",
+        "type": "file in",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "filename": "/root/tmp",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 340,
+        "y": 460,
+        "wires": [
+            [
+                "80472c5daa51e7dd"
+            ]
+        ]
+    },
+    {
+        "id": "80472c5daa51e7dd",
+        "type": "function",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "func": "data = []\ndata = msg.payload.split(\"\\n\").filter(Boolean);\nmsg.payload = data[data.length-1];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 460,
+        "wires": [
+            [
+                "3e1ca8d3ef8681d2"
+            ]
+        ]
+    },
+    {
+        "id": "3e1ca8d3ef8681d2",
+        "type": "debug",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "d07bb8db40be0641",
+        "type": "watch",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "files": "/root/tmp",
+        "recursive": false,
+        "x": 120,
+        "y": 480,
+        "wires": [
+            [
+                "d33484abe0c60907",
+                "a0ffa85a765b4f3e"
+            ]
+        ]
+    },
+    {
+        "id": "a0ffa85a765b4f3e",
+        "type": "debug",
+        "z": "cd0e1fcec1465bf7",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 350,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "529dc3abc87152a8",
+        "type": "comment",
+        "z": "cd0e1fcec1465bf7",
+        "name": "fileノードを使用したfunctionノードのデバッグ",
+        "info": "",
+        "x": 230,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b13bba13f87647b7",
+        "type": "comment",
+        "z": "cd0e1fcec1465bf7",
+        "name": "fileノードを使用したCSVファイルへの追記",
+        "info": "",
+        "x": 220,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "22cc8734d2086148",
+        "type": "comment",
+        "z": "cd0e1fcec1465bf7",
+        "name": "watchノードとfile inノードを使用したファイルの最終行の取出し",
+        "info": "tailノードと同じことが可能",
+        "x": 290,
+        "y": 420,
+        "wires": []
+    }
+]
